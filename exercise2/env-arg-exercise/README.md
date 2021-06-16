@@ -4,4 +4,4 @@
 
 <code>docker container run env-arg</code>
 
-![Screen Shoot](screenshoot-1.PNG))
+![Screen Shoot](screenshoot-1.PNG)
