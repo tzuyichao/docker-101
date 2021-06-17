@@ -9,3 +9,7 @@
 <code>docker container stop activity2-container</code>
 
 <code>docker container rm activity2-container</code>
+
+## Image Layers
+
+![Image history](screenshoot-2.PNG)
