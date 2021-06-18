@@ -1,0 +1,11 @@
+FROM golang:latest
+
+ENV GO111MODULE=off
+
+WORKDIR /myapp
+
+COPY helloworld.go .
+
+RUN go build -o helloworld .
+
+ENTRYPOINT ["./helloworld"]
