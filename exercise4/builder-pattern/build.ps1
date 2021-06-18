@@ -9,4 +9,4 @@ docker image build -t helloworld .
 
 docker container rm -f helloworld-build-container
 
-rm helloworld
+Remove-Item helloworld
