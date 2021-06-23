@@ -15,4 +15,4 @@ USER myuser
 
 EXPOSE 8080
 
-CMD ["/myapp/main"]
+ENTRYPOINT ["/myapp/main"]
