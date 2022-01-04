@@ -6,12 +6,15 @@ spec:
   selector:
     matchLabels:
       run: kuard
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
         run: kuard
+      annotations:
+        kubernetes.io/change-cause: "Update to green kuard"
     spec:
       containers:
       - name: kuard
-        image: gcr.io/kuard-demo/kuard-amd64:blue
+        image: gcr.io/kuard-demo/kuard-amd64:green
+        imagePullPolicy: Always
