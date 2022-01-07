@@ -11,7 +11,7 @@
 - [ ] Docker in Practice
 - [ ] Kubernetes in Action
 - [ ] Core Kubernetes 
-- [ ] Kubernetes on Windows
+- [ ] kubectl: Command-Line Kubernetes in a Nutshell: Command-Line Kubernetes in a Nutshell
 - [ ] GitOps and Kubernetes
 - [ ] Kubernetes Natvice Microservices
 - [ ] Kubernetes for Developer
