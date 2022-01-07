@@ -66,3 +66,14 @@ command terminated with exit code 1
 ```
 
 name resolve OK, but k8s service does not support ICMP.
+
+
+## numbers lab
+
+### web LoadBalancer service on minikube
+
+using minikueb tunnel for help LoadBalancer service
+
+```
+minikube tunnel
+```
