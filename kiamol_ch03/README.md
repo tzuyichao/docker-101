@@ -77,3 +77,23 @@ using minikueb tunnel for help LoadBalancer service
 ```
 minikube tunnel
 ```
+
+### web NodePort service on windows minikube
+
+
+```
+minikube service numbers-web-node --url
+```
+
+
+```
+PS C:\GitHub\docker-101\kiamol_ch03> minikube service numbers-web-node --url
+* Starting tunnel for service numbers-web-node.
+|-----------|------------------|-------------|------------------------|
+| NAMESPACE |       NAME       | TARGET PORT |          URL           |
+|-----------|------------------|-------------|------------------------|
+| default   | numbers-web-node |             | http://127.0.0.1:54650 |
+|-----------|------------------|-------------|------------------------|
+http://127.0.0.1:54650
+! Because you are using a Docker driver on windows, the terminal needs to be open to run it.
+```
