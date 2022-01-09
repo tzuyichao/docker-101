@@ -16,4 +16,4 @@
 - [ ] Kubernetes Natvice Microservices
 - [ ] Kubernetes for Developer
 - [ ] Bootstrapping Microservices with Docker, Kubernetes, and Terraform
-- [ ] 圖解Docker & Kubernetes的知識與使用方法
+- [x] 圖解Docker & Kubernetes的知識與使用方法
