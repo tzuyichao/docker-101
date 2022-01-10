@@ -14,9 +14,6 @@ spec:
       containers:
         - name: sleep
           image: kiamol/ch03-sleep
-          envFrom:
-            - configMapRef:
-                name: sleep-config-env-file
           env:
             - name: KIAMOL_CHAPTER
               value: "04"
@@ -25,3 +22,6 @@ spec:
                 configMapKeyRef:
                   name: sleep-config-literal
                   key: kiamol.section
+          envFrom:
+            - configMapRef:
+                name: sleep-config-env-file
