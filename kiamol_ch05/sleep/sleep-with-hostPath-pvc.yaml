@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sleep2
+spec:
+  selector:
+    matchLabels:
+      app: sleep2
+  template:
+    metadata:
+      labels:
+        app: sleep2
+    spec:
+      containers:
+        - name: sleep2
+          image: kiamol/ch03-sleep
+          volumeMounts:
+            - name: node-root
+              mountPath: /node-root
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: node-root
+          hostPath:
+            path: /
+            type: Directory
+        - name: data
+          persistentVolumeClaim:
+            claimName: sleep-pvc
