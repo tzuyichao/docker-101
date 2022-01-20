@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: resource-requirements-pod
+  labels:
+    workshop: ch05
+spec:
+  containers:
+    - name: container-with-resource-requirements
+      image: nginx
+      resources:
+        limits:
+          memory: "128M"
+          cpu: "1"
+        requests:
+          memory: "64M"
+          cpu: "0.5"
