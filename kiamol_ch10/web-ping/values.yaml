@@ -1,0 +1,4 @@
+targetUrl: blog.sixeyed.com
+httpMedhot: HEAD
+pingIntervalMilliseconds: 30000
+kiamolChapter: ch10
