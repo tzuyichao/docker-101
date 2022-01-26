@@ -14,7 +14,7 @@ data:
       worker_connections  1024;
     }
     http {
-      proxy_cache_path /data/nginx/cache levels=1:2 keys_zone=STATIC:10m inactive=24h  max_size={{ .Values.cacheMaxSixe }};
+      proxy_cache_path /data/nginx/cache levels=1:2 keys_zone=STATIC:10m inactive=24h  max_size={{ .Values.cacheMaxSize }};
       gzip  on;    
       gzip_proxied any;
       map $sent_http_content_type $expires {
