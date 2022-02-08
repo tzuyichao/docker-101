@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: pi-web
+  labels:
+    kiamol: ch12
+    app: pi-web
+spec:
+  ports:
+    - port: 8012
+      targetPort: http
+  selector:
+    app: pi-web
+  type: LoadBalancer

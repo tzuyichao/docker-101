@@ -1,0 +1,23 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: pi-web
+  labels:
+    kiamol: ch12
+    app: pi-web
+spec:
+  selector:
+    matchLabels:
+      app: pi-web
+  template:
+    metadata:
+      labels:
+        app: pi-web
+    spec:
+      containers:
+        - name: web
+          image: kiamol/ch05-pi
+          command: ["dotnet", "Pi.Web.dll", "-m", "web"]
+          ports:
+            - name: http
+              containerPort: 80
