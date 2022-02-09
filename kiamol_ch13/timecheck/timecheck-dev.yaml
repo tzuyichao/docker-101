@@ -26,7 +26,7 @@ spec:
             - name: logs-dir
               mountPath: /logs
         - name: logger
-          image: kiamol/sleep
+          image: kiamol/ch03-sleep
           command: ['sh', '-c', 'tail -f /logs-ro/timecheck.log']
           volumeMounts:
             - name: logs-dir
