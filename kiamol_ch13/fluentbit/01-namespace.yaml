@@ -1,0 +1,6 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: kiamol-ch13-logging
+  labels:
+    kiamol: ch13
