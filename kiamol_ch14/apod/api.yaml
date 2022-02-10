@@ -1,0 +1,35 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: apod-api
+  namespace: kiamol-ch14-test
+spec:
+  ports:
+    - port: 80
+      targetPort: api
+  selector:
+    app: apod-api
+  type: ClusterIP
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: apod-api
+  namespace: kiamol-ch14-test
+spec:
+  selector:
+    matchLabels:
+      app: apod-api
+  template:
+    metadata:
+      labels:
+        app: apod-api
+      annotations:
+        prometheus.io/path: "/actuator/prometheus"
+    spec:
+      containers:
+        - name: api
+          image: kiamol/ch14-image-of-the-day
+          ports:
+            - containerPort: 80
+              name: api
