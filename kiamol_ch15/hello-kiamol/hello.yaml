@@ -1,0 +1,35 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello-kiamol
+  labels:
+    kiamol: ch15
+spec:
+  ports:
+    - port: 80
+      targetPort: http
+  selector:
+    app: hello-kiamol
+  type: ClusterIP
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: hello-kiamol
+  labels:
+    kiamol: ch15
+spec:
+  selector:
+    matchLabels:
+      app: hello-kiamol
+  template:
+    metadata:
+      labels:
+        app: hello-kiamol
+    spec:
+      containers:
+        - name: web
+          image: kiamol/ch02-hello-kiamol
+          ports:
+            - name: http
+              containerPort: 80
