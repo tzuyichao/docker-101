@@ -7,12 +7,10 @@
 - [x] Kubernetes Best Practices (中文) 
 - [x] Learn Docker in a Month of Lunches
 - [x] Learn Kubernetes in a Month of Lunches
-- [ ] Docker in Action
-- [ ] Docker in Practice
-- [ ] Kubernetes in Action
+- [x] Docker in Action
+- [x] Docker in Practice
+- [x] Kubernetes in Action
 - [ ] Core Kubernetes 
-- [ ] GitOps and Kubernetes
 - [ ] Kubernetes Natvice Microservices
 - [ ] Kubernetes for Developer
-- [ ] Bootstrapping Microservices with Docker, Kubernetes, and Terraform
 - [x] 圖解Docker & Kubernetes的知識與使用方法
