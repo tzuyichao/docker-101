@@ -25,5 +25,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/", handler)
 	http.Handle("/metrics", promhttp.Handler())
+	log.Println("Running...")
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
