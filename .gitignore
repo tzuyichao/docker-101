@@ -6,3 +6,5 @@ kiamol_ch17/user.key
 volumes/
 backup
 vagrant/
+influxdb/data/
+influxdb/config/
