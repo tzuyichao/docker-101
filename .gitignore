@@ -8,3 +8,4 @@ backup
 vagrant/
 influxdb/data/
 influxdb/config/
+.venv/
