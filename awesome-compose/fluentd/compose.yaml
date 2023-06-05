@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  fluentd:
+    image: fluent/fluentd
+    ports:
+      - 18080:18080
+    volumes:
+      - ./conf:/fluentd/etc
+      - ./logs:/fluentd/log
+    restart: always
