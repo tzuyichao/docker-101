@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  zookeeper-1:
+    image: zookeeper:3.7
+    container_name: zookeeper-1
+    restart: always
+    environment:
+      - ZOO_MY_ID=1
+      - ZOO_SERVERS=zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
+    networks:
+      - zookeeper_network
+    ports:
+      - 2181:2181
+      - 2888:2888
+      - 3888:3888
+
+  zookeeper-2:
+    image: zookeeper:3.7
+    container_name: zookeeper-2
+    restart: always
+    environment:
+      - ZOO_MY_ID=2
+      - ZOO_SERVERS=zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
+    networks:
+      - zookeeper_network
+
+  zookeeper-3:
+    image: zookeeper:3.7
+    container_name: zookeeper-3
+    restart: always
+    environment:
+      - ZOO_MY_ID=3
+      - ZOO_SERVERS=zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
+    networks:
+      - zookeeper_network
+
+networks:
+  zookeeper_network:
+    driver: bridge
