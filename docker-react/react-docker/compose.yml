@@ -1,0 +1,11 @@
+# credit from: https://www.knowledgehut.com/blog/web-development/how-to-dockerize-react-app
+version: "3.8"
+
+services:
+  app:
+    container_name: docker-react-c
+    image: docker-react-i
+    build:
+      context: .
+    ports:
+      - 8080:80
