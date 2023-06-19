@@ -1,0 +1,14 @@
+[package]
+name = "rust-zk-lab1"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "my_app"
+path = "src/main.rs"
+
+[dependencies]
+zookeeper = "0.7.0"
+
