@@ -1,0 +1,39 @@
+version: '3'
+services:
+  kafka:
+    logging:
+      driver: local
+    ports:
+      - 9092:9092
+      - 9093:9093
+      - 9998:9998
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://:9092,PLAINTEXT_HOST://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://127.0.0.1:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_JMX_PORT: 9998
+    image: confluentinc/cp-kafka:latest
+    networks:
+      - kafka
+    depends_on:
+      - zookeeper
+  zookeeper:
+    logging:
+      driver: local
+    ports:
+      - 2181:2181
+      - 9101:9101
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      KAFKA_JMX_PORT: 9101
+    image: confluentinc/cp-zookeeper:latest
+    networks:
+      - kafka
+networks:
+  kafka:
+    external: false
