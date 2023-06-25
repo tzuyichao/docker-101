@@ -9,3 +9,5 @@ vagrant/
 influxdb/data/
 influxdb/config/
 .venv
+__pycache__
+logs
