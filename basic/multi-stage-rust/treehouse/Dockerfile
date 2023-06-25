@@ -12,6 +12,6 @@ FROM debian:buster-slim
 
 WORKDIR /app
 
-COPY --from=build /app/target/release/threehouse .
+COPY --from=build /app/target/release/treehouse .
 
-CMD ["./threehouse"]
+CMD ["./treehouse"]
