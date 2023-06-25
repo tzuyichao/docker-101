@@ -10,8 +10,7 @@ RUN cargo build --release
 # Final stage
 FROM debian:buster-slim
 
-RUN apt-get -y update
-RUN apt-get -y install openssl
+RUN apt-get -y update && apt-get -y install openssl
 
 WORKDIR /app
 
