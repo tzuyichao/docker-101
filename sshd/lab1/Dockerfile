@@ -1,5 +1,5 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get install -y ssh iputils-ping python3
+RUN apt-get update && apt-get install -y ssh iputils-ping python3 python3-pip
 
-CMD ["bash", "-c", "python3 && while true; do sleep 1; done"]
+CMD ["python3", "-m", "http.server", "8000"]
