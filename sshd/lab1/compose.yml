@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  sshd1:
+    build: 
+      context: .
+      dockerfile: Dockerfile-sshd1
+    ports:
+      - 2222:22
+    networks:
+      - my-network
+  ubuntu1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - my-network
+
+networks:
+  my-network:
