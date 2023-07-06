@@ -1,0 +1,17 @@
+dn: ou=users,dc=example,dc=com
+objectClass: organizationalUnit
+ou: users
+
+dn: uid=testuser,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Test User
+uid: testuser
+uidNumber: 10000
+gidNumber: 10000
+homeDirectory: /home/testuser
+userPassword: {CLEARTEXT}password
+loginShell: /bin/bash
+gecos: Test User
