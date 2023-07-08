@@ -12,6 +12,8 @@ services:
       ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
     networks:
       - kafka
+    ports:
+      - 2181:2181
 
   zookeeper-2:
     image: confluentinc/cp-zookeeper:latest
@@ -25,6 +27,8 @@ services:
       ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
     networks:
       - kafka
+    ports:
+      - 2182:2181
 
   zookeeper-3:
     image: confluentinc/cp-zookeeper:latest
@@ -38,6 +42,8 @@ services:
       ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
     networks:
       - kafka
+    ports:
+      - 2183:2181
 
   kafka1:
     image: confluentinc/cp-kafka:latest
