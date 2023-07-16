@@ -14,9 +14,7 @@ services:
     environment:
       - ZOO_MY_ID=1
       - ZOO_SERVERS=server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888 observerMasterPort=2889
-    volumes:
-      - ./zoo1/data:/data
-      - ./zoo1/datalog:/datalog
+
 
   zoo2:
     image: *zk-image
@@ -29,9 +27,7 @@ services:
     environment:
       - ZOO_MY_ID=2
       - ZOO_SERVERS=server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888 observerMasterPort=2889
-    volumes:
-      - ./zoo2/data:/data
-      - ./zoo2/datalog:/datalog
+
 
   zoo3:
     image: *zk-image
@@ -44,9 +40,7 @@ services:
     environment:
       - ZOO_MY_ID=3
       - ZOO_SERVERS=server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888 observerMasterPort=2889
-    volumes:
-      - ./zoo3/data:/data
-      - ./zoo3/datalog:/datalog
+
 
   observer:
     image: *zk-image
@@ -59,6 +53,4 @@ services:
     environment:
       - ZOO_MY_ID=4
       - ZOO_SERVERS=server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888 server.4=observer:2888:3888:observer observerMasterPort=2889 peerType=observer
-    volumes:
-      - ./observer/data:/data
-      - ./observer/datalog:/datalog
+
