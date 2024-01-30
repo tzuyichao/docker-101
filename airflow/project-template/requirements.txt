@@ -1,0 +1,2 @@
+pymssql
+cx_Oracle

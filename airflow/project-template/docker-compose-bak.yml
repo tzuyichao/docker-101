@@ -1,0 +1,81 @@
+version: '3.8'
+services:
+  # Airflow webserver
+  webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - LOAD_EX=n
+      - AIRFLOW_HOME=/usr/local/airflow
+      - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CELERY__RESULT_BACKEND=db+postgresql://airflow:airflow@postgres/airflow
+      - AIRFLOW__CELERY__BROKER_URL=redis://redis:6379/0
+      - AIRFLOW__CORE__FERNET_KEY=_e1DjLwDF1kbfz7RMIBjsN5NljJBlpTwAZyS1kY2_GQ=
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./scripts:/usr/local/airflow/scripts
+      - ./logs:/usr/local/airflow/logs
+      - ./plugins:/usr/local/airflow/plugins
+    user: "airflow:airflow"
+    ports:
+      - "8080:8080"
+    command: webserver
+
+  # Airflow scheduler
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - webserver
+    environment:
+      - LOAD_EX=n
+      - AIRFLOW_HOME=/usr/local/airflow
+      - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CELERY__RESULT_BACKEND=db+postgresql://airflow:airflow@postgres/airflow
+      - AIRFLOW__CELERY__BROKER_URL=redis://redis:6379/0
+      - AIRFLOW__CORE__FERNET_KEY=_e1DjLwDF1kbfz7RMIBjsN5NljJBlpTwAZyS1kY2_GQ=
+    user: "airflow:airflow"
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./scripts:/usr/local/airflow/scripts
+      - ./logs:/usr/local/airflow/logs
+      - ./plugins:/usr/local/airflow/plugins
+
+  # Postgres database for Airflow metadata
+  postgres:
+    image: postgres:12
+    restart: always
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+
+  # Redis for Celery broker
+  redis:
+    image: redis:latest
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 30s
+      retries: 50
+      start_period: 30s
+
+volumes:
+      postgres-db-volume:
