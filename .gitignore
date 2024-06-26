@@ -11,3 +11,4 @@ influxdb/config/
 .venv
 __pycache__
 logs
+.ipynb_checkpoints/
