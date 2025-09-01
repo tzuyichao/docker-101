@@ -1,0 +1,64 @@
+micronaut:
+  security:
+    enabled: true
+
+akhq:
+  connections:
+    stg:
+      properties:
+        bootstrap.servers: "kafka-stg:9092"
+    prd:
+      properties:
+        bootstrap.servers: "kafka-prd:9092"
+
+  security:
+    default-group: no-roles
+
+    roles:
+      stg-writer-a:
+        - resources: [ "TOPIC_DATA" ]
+          actions:   [ "READ", "CREATE" ]
+        - resources: [ "TOPIC" ]
+          actions:   [ "READ" ]
+
+    groups:
+      g-stg-writer-A:
+        - role: stg-writer-a
+          patterns: ["^A-.*"] 
+          clusters: ["stg"]
+
+      g-stg-reader:
+        - role: reader
+          patterns: [".*"]
+          clusters: ["stg"]
+
+      g-prd-reader:
+        - role: reader
+          patterns: [".*"]
+          clusters: ["prd"]
+
+    basic-auth:
+      - username: dev
+        password: "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+        passwordHash: SHA256
+        groups: [g-stg-reader, g-stg-writer-A, g-prd-reader]
+
+      - username: viewer
+        password: "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+        passwordHash: SHA256
+        groups: [g-stg-reader, g-prd-reader]
+
+      - username: admin
+        password: "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+        passwordHash: SHA256
+        groups: 
+        - admin
+
+  micronaut:
+    security:
+      token:
+        jwt:
+          signatures:
+            secret:
+              generator:
+                secret: "PLEASE-USE-A-VERY-LONG-RANDOM-SECRET-AND-ROTATE"
