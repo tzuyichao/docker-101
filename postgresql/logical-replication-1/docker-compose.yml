@@ -1,0 +1,44 @@
+services:
+  publisher:
+    image: postgres:16
+    container_name: pg_pub
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./publisher/data:/var/lib/postgresql/data
+      - ./publisher/conf/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ./publisher/conf/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+      - ./publisher/init:/docker-entrypoint-initdb.d:ro
+    command: >
+      postgres -c config_file=/etc/postgresql/postgresql.conf
+              -c hba_file=/etc/postgresql/pg_hba.conf
+    ports:
+      - "54321:5432"
+    networks: [pgnet]
+
+  subscriber:
+    image: postgres:16
+    container_name: pg_sub
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./subscriber/data:/var/lib/postgresql/data
+      - ./subscriber/conf/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ./subscriber/conf/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+      - ./subscriber/init:/docker-entrypoint-initdb.d:ro
+    command: >
+      postgres -c config_file=/etc/postgresql/postgresql.conf
+              -c hba_file=/etc/postgresql/pg_hba.conf
+    ports:
+      - "54322:5432"
+    networks: [pgnet]
+
+networks:
+  pgnet:
+    driver: bridge
