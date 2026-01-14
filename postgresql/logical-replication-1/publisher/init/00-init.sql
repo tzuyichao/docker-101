@@ -17,6 +17,10 @@ INSERT INTO public.items (id, name, qty) VALUES
 (1, 'apple', 10),
 (2, 'banana', 20);
 
+CREATE ROLE repl
+  WITH LOGIN
+       REPLICATION
+       PASSWORD 'replpass';
 
 GRANT USAGE ON SCHEMA public TO repl;
 GRANT SELECT ON TABLE public.items TO repl;

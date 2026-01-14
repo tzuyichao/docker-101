@@ -1,4 +1,4 @@
-CREATE ROLE repl WITH LOGIN PASSWORD 'replpass';
+
 CREATE DATABASE lab;
 
 \c lab
