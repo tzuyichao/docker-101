@@ -45,7 +45,7 @@ docker exec -it pg_standby psql -U postgres -d appdb -c "SELECT pubname FROM pg_
 (1 row)
 ```
 
-## 驗證 standby 不能建立 logical replication slot
+## 驗證 standby 能不能建立 logical replication slot
 
 ```
 docker exec -it pg_standby psql -U postgres -d appdb -c "SELECT pg_create_logical_replication_slot('s1','pgoutput');"
