@@ -1,0 +1,129 @@
+services:
+  zk1:
+    image: zookeeper:3.9
+    container_name: zk1
+    hostname: zk1
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: "server.1=zk1:2888:3888;2181 server.2=zk2:2888:3888;2181 server.3=zk3:2888:3888;2181"
+    ports:
+      - "2181:2181"
+
+  zk2:
+    image: zookeeper:3.9
+    container_name: zk2
+    hostname: zk2
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: "server.1=zk1:2888:3888;2181 server.2=zk2:2888:3888;2181 server.3=zk3:2888:3888;2181"
+
+  zk3:
+    image: zookeeper:3.9
+    container_name: zk3
+    hostname: zk3
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: "server.1=zk1:2888:3888;2181 server.2=zk2:2888:3888;2181 server.3=zk3:2888:3888;2181"
+
+  patroni1:
+    image: patroni-zk:4.1.0
+    container_name: patroni1
+    environment:
+      PATRONI_NAME: patroni1
+      PATRONI_SCOPE: pg-ha
+      PATRONI_LOG_LEVEL: INFO
+
+      PATRONI_RESTAPI_LISTEN: "0.0.0.0:8008"
+      PATRONI_RESTAPI_CONNECT_ADDRESS: "patroni1:8008"
+
+      PATRONI_ZOOKEEPER_HOSTS: "'zk1:2181','zk2:2181','zk3:2181'"
+
+      PATRONI_POSTGRESQL_LISTEN: "0.0.0.0:5432"
+      PATRONI_POSTGRESQL_CONNECT_ADDRESS: "patroni1:5432"
+      PATRONI_POSTGRESQL_DATA_DIR: "/home/postgres/pgdata/pgroot/data"
+
+      PATRONI_SUPERUSER_USERNAME: "postgres"
+      PATRONI_SUPERUSER_PASSWORD: "postgres"
+      PATRONI_REPLICATION_USERNAME: "repl"
+      PATRONI_REPLICATION_PASSWORD: "replpwd"
+
+      PATRONI_POSTGRESQL_PARAMETERS_wal_level: "replica"
+      PATRONI_POSTGRESQL_PARAMETERS_hot_standby: "on"
+      PATRONI_POSTGRESQL_PARAMETERS_max_wal_senders: "10"
+      PATRONI_POSTGRESQL_PARAMETERS_max_replication_slots: "10"
+    ports:
+      - "5433:5432"
+      - "8009:8008"
+    volumes:
+      - p1:/home/postgres/pgdata
+    depends_on: [zk1, zk2, zk3]
+
+  patroni2:
+    image: patroni-zk:4.1.0
+    container_name: patroni2
+    environment:
+      PATRONI_NAME: patroni2
+      PATRONI_SCOPE: pg-ha
+      PATRONI_LOG_LEVEL: INFO
+      PATRONI_RESTAPI_LISTEN: "0.0.0.0:8008"
+      PATRONI_RESTAPI_CONNECT_ADDRESS: "patroni2:8008"
+      PATRONI_ZOOKEEPER_HOSTS: "'zk1:2181','zk2:2181','zk3:2181'"
+      PATRONI_POSTGRESQL_LISTEN: "0.0.0.0:5432"
+      PATRONI_POSTGRESQL_CONNECT_ADDRESS: "patroni2:5432"
+      PATRONI_POSTGRESQL_DATA_DIR: "/home/postgres/pgdata/pgroot/data"
+      PATRONI_SUPERUSER_USERNAME: "postgres"
+      PATRONI_SUPERUSER_PASSWORD: "postgres"
+      PATRONI_REPLICATION_USERNAME: "repl"
+      PATRONI_REPLICATION_PASSWORD: "replpwd"
+      PATRONI_POSTGRESQL_PARAMETERS_wal_level: "replica"
+      PATRONI_POSTGRESQL_PARAMETERS_hot_standby: "on"
+      PATRONI_POSTGRESQL_PARAMETERS_max_wal_senders: "10"
+      PATRONI_POSTGRESQL_PARAMETERS_max_replication_slots: "10"
+    ports:
+      - "5434:5432"
+      - "8010:8008"
+    volumes:
+      - p2:/home/postgres/pgdata
+    depends_on: [zk1, zk2, zk3]
+
+  patroni3:
+    image: patroni-zk:4.1.0
+    container_name: patroni3
+    environment:
+      PATRONI_NAME: patroni3
+      PATRONI_SCOPE: pg-ha
+      PATRONI_LOG_LEVEL: INFO
+      PATRONI_RESTAPI_LISTEN: "0.0.0.0:8008"
+      PATRONI_RESTAPI_CONNECT_ADDRESS: "patroni3:8008"
+      PATRONI_ZOOKEEPER_HOSTS: "'zk1:2181','zk2:2181','zk3:2181'"
+      PATRONI_POSTGRESQL_LISTEN: "0.0.0.0:5432"
+      PATRONI_POSTGRESQL_CONNECT_ADDRESS: "patroni3:5432"
+      PATRONI_POSTGRESQL_DATA_DIR: "/home/postgres/pgdata/pgroot/data"
+      PATRONI_SUPERUSER_USERNAME: "postgres"
+      PATRONI_SUPERUSER_PASSWORD: "postgres"
+      PATRONI_REPLICATION_USERNAME: "repl"
+      PATRONI_REPLICATION_PASSWORD: "replpwd"
+      PATRONI_POSTGRESQL_PARAMETERS_wal_level: "replica"
+      PATRONI_POSTGRESQL_PARAMETERS_hot_standby: "on"
+      PATRONI_POSTGRESQL_PARAMETERS_max_wal_senders: "10"
+      PATRONI_POSTGRESQL_PARAMETERS_max_replication_slots: "10"
+    ports:
+      - "5435:5432"
+      - "8011:8008"
+    volumes:
+      - p3:/home/postgres/pgdata
+    depends_on: [zk1, zk2, zk3]
+
+  haproxy:
+    image: haproxy:2.9
+    container_name: haproxy
+    depends_on: [patroni1, patroni2, patroni3]
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+
+volumes:
+  p1:
+  p2:
+  p3:
