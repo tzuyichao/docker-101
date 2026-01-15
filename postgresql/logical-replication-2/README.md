@@ -86,3 +86,20 @@ PS E:\lab\docker\docker-101\postgresql\logical-replication-2> docker exec -it pg
  16397 | sub_from_r1 |  98 |            |       | 0/3047670    | 2026-01-15 10:54:46.550556+00 | 2026-01-15 10:54:46.550952+00 | 0/3047670      | 2026-01-15 10:54:46.550556+00
 (1 row)
 ```
+
+## 後續
+
+### 現在說的HA
+
+原生PostgreSQL primary/standby replication使用上會有一些不便
+
+* failover切換人工介入
+* remastering之後client也要改設定連另一台
+
+改連線資訊的問題可以在前面加一個連線處理層解決()，standby remaster不須重啟服務。
+人工介入的問題目前有open source project協助。比如Patroni之類的。Patroni的做法也會有2n+1的需求和調整作法。
+
+### logical replication
+
+* logical replication不會複寫DDL，新的table要先在region2建立好。
+* 加入新表到原本publication不會做initial copy。
