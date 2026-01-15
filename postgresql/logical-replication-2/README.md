@@ -91,7 +91,8 @@ PS E:\lab\docker\docker-101\postgresql\logical-replication-2> docker exec -it pg
 
 ### 現在說的HA
 
-原生PostgreSQL primary/standby replication使用上會有一些不便
+原生PostgreSQL primary/standby replication使用上會有一些不便。(不是那麼像現在人聽到HA想到的東西，而且官方文件就在HA章節)
+
 
 * failover切換人工介入
 * remastering之後client也要改設定連另一台
@@ -100,6 +101,8 @@ PS E:\lab\docker\docker-101\postgresql\logical-replication-2> docker exec -it pg
 人工介入的問題目前有open source project協助。比如Patroni之類的。Patroni的做法也會有2n+1的需求和調整作法。
 
 ### logical replication
+
+logical replication跟HA章節同級，不是歸到HA裡面。讓我們可以選定資料庫選定table清單進行CDC抄寫的目的。
 
 * logical replication不會複寫DDL，新的table要先在region2建立好。
 * 加入新表到原本publication不會做initial copy。
