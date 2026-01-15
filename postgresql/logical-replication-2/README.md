@@ -2,6 +2,8 @@
 
 兩個primary-standby之間建立logical replication確認功能符合預期。
 
+![構想](map.png)
+
 ## 步驟
 
 1. 啟動兩組primary-stanby的replicaion postgreSQL db
@@ -97,8 +99,10 @@ PS E:\lab\docker\docker-101\postgresql\logical-replication-2> docker exec -it pg
 * failover切換人工介入
 * remastering之後client也要改設定連另一台
 
-改連線資訊的問題可以在前面加一個連線處理層解決()，standby remaster不須重啟服務。
+改連線資訊的問題可以在前面加一個連線處理層解決()，standby remastering不須重啟服務。
 人工介入的問題目前有open source project協助。比如Patroni之類的。Patroni的做法也會有2n+1的需求和調整作法。
+
+
 
 ### logical replication
 
