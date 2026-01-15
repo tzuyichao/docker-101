@@ -1,0 +1,76 @@
+services:
+  region1_primary:
+    image: postgres:16
+    container_name: pg_region1_primary
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: appdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - region1_primary_data:/var/lib/postgresql/data
+      - ./region1_primary/00-config.sql:/docker-entrypoint-initdb.d/00-config.sql:ro
+      - ./region1_primary/01-hba.sh:/docker-entrypoint-initdb.d/01-hba.sh:ro
+    command: >
+      postgres
+      -c wal_level=logical
+      -c max_wal_senders=10
+      -c max_replication_slots=10
+      -c hot_standby=on
+      -c listen_addresses='*'
+
+  region1_standby1:
+    image: postgres:16
+    container_name: pg_region1_standby1
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    depends_on:
+      - region1_primary
+    volumes:
+      - region1_standby1_data:/var/lib/postgresql/data
+      - ./region1_standby1/init-standby.sh:/init-standby.sh:ro
+    entrypoint: ["/bin/bash", "/init-standby.sh"]
+
+  region2_primary:
+    image: postgres:16
+    container_name: pg_region2_primary
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: appdb
+    ports:
+      - "5434:5432"
+    volumes:
+      - region2_primary_data:/var/lib/postgresql/data
+      - ./region2_primary/00-config.sql:/docker-entrypoint-initdb.d/00-config.sql:ro
+      - ./region2_primary/01-hba.sh:/docker-entrypoint-initdb.d/01-hba.sh:ro
+    command: >
+      postgres
+      -c wal_level=replica
+      -c max_wal_senders=10
+      -c max_replication_slots=10
+      -c hot_standby=on
+      -c listen_addresses='*'
+  
+  region2_standby1:
+    image: postgres:16
+    container_name: pg_region2_standby1
+    environment:
+      POSTGRES_PASSWORD: postgres
+    depends_on:
+      - region2_primary
+    ports:
+      - "5435:5432"
+    volumes:
+      - region2_standby1_data:/var/lib/postgresql/data
+      - ./region2_standby1/init-standby.sh:/init-standby.sh:ro
+    entrypoint: ["/bin/bash", "/init-standby.sh"]
+
+volumes:
+  region1_primary_data:
+  region1_standby1_data:
+  region2_primary_data:
+  region2_standby1_data:
