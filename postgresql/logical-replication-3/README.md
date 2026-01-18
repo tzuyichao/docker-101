@@ -68,6 +68,8 @@ WHERE backend_type LIKE '%logical replication%'
  @ ERROR:  no partition of relation "orders" found for row
 ```
 
+把該建的table補上去，沒有其他意外過一下子就會把row change apply。
+
 ```
 lab=# select * from public.orders;
  id | order_time | customer | amount
