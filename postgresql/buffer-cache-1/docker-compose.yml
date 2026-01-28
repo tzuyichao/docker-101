@@ -1,0 +1,25 @@
+services:
+  pg:
+    image: postgres:16
+    container_name: pg_buflab
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: lab
+    ports:
+      - "5432:5432"
+    command: >
+      postgres
+       -c shared_buffers=128MB
+       -c work_mem=8MB
+       -c maintenance_work_mem=64MB
+       -c track_io_timing=on
+       -c log_statement=none
+       -c log_min_duration_statement=0
+       -c checkpoint_timeout=5min
+       -c max_wal_size=1GB
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
