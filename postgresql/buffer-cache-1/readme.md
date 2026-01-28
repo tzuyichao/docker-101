@@ -1,5 +1,5 @@
 
-`
+```
 \d pg_buffercache;
                  View "public.pg_buffercache"
       Column      |   Type   | Collation | Nullable | Default
@@ -13,9 +13,9 @@
  isdirty          | boolean  |           |          |
  usagecount       | smallint |           |          |
  pinning_backends | integer  |           |          |
-`
+```
 
-`
+```
 CREATE FUNCTION buffercache(rel regclass)
 RETURNS TABLE(
   bufferid integer, relfork text, relblk bigint,
@@ -35,9 +35,9 @@ FROM pg_buffercache
 WHERE relfilenode = pg_relation_filenode(rel)
 ORDER BY relforknumber, relblocknumber;
 $$ LANGUAGE sql;
-`
+```
 
-`
+```
 SELECT * FROM buffercache('cacheme');
  bufferid | relfork | relblk | isdirty | usagecount | pins
 ----------+---------+--------+---------+------------+------
@@ -60,4 +60,4 @@ SELECT * FROM buffercache('cacheme');
 ----------+---------+--------+---------+------------+------
       575 | main    |      0 | t       |          2 |    0
 (1 row)
-`
+````
